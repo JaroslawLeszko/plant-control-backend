@@ -83,7 +83,6 @@ export class PlantRecord implements PlantEntity {
             id: this.id,
             lastWatering: this.lastWatering,
         });
-        console.log(`podlane ${this.lastWatering}`);
     }
 
     async fertilize(): Promise<void> {
