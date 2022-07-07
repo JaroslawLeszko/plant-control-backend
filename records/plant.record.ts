@@ -10,11 +10,11 @@ export class PlantRecord implements PlantEntity {
     id?: string;
     name: string;
     lastWatering: string;
-    wateringPeriod: string;
+    wateringPeriod: number;
     lastFertilization: string;
-    fertilizationPeriod: string;
+    fertilizationPeriod: number;
     lastDustRemoval: string;
-    quarantine?: boolean;
+    quarantine?: number;
     image?: string;
 
     constructor(obj: PlantEntity) {
@@ -83,6 +83,7 @@ export class PlantRecord implements PlantEntity {
             id: this.id,
             lastWatering: this.lastWatering,
         });
+        console.log(`podlane ${this.lastWatering}`);
     }
 
     async fertilize(): Promise<void> {
