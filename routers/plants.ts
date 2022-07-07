@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 import {PlantRecord} from "../records/plant.record";
-import {AddPlant, PlantEntity} from "../types";
+import {PlantEntity} from "../types";
 
 export const plantsRouter = Router();
 
