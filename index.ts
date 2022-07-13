@@ -16,6 +16,8 @@ app.use(urlencoded({
     extended: true,
 }));
 
+app.use(express.static('images'));
+
 app.use(express.json());
 
 app.use('/', plantsRouter);

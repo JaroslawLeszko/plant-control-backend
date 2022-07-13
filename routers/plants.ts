@@ -1,10 +1,36 @@
 import {Request, Response, Router} from "express";
+import multer from 'multer';
 import {PlantRecord} from "../records/plant.record";
 import {PlantEntity} from "../types";
 
+type DestinationCallback = (error: Error | null, destination: string) => void
+type FileNameCallback = (error: Error | null, filename: string) => void
+
 export const plantsRouter = Router();
 
+export const storage = multer.diskStorage({
+    destination: (
+        request: Request,
+        file: Express.Multer.File,
+        callback: DestinationCallback
+    ): void => {callback(null, 'images/')
+    },
+
+    filename: (
+        req: Request,
+        file: Express.Multer.File,
+        callback: FileNameCallback
+    ): void => {callback(null, file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage,  preservePath: true})
+
 plantsRouter
+    .post('/add/image', upload.single('file'), function (req, res) {
+        res.json({message: 'Successfully uploaded file'})
+    })
+
     .get('/', async (req: Request, res: Response) => {
         const plantList = await PlantRecord.listAll();
 
@@ -20,6 +46,7 @@ plantsRouter
 
     .post('/', async (req, res) => {
         const newPlant = new PlantRecord(req.body as PlantEntity);
+        console.log(newPlant)
         await newPlant.insert();
         res.json(newPlant);
     })
