@@ -46,7 +46,6 @@ plantsRouter
 
     .post('/', async (req, res) => {
         const newPlant = new PlantRecord(req.body as PlantEntity);
-        console.log(newPlant)
         await newPlant.insert();
         res.json(newPlant);
     })
@@ -54,8 +53,7 @@ plantsRouter
     .patch('/water/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
 
-        const lastWater = req.body.lastWatering;
-        plant.lastWatering = lastWater;
+        plant.lastWatering = req.body.lastWatering;
 
         await plant.water();
         res.json(plant);
@@ -64,8 +62,7 @@ plantsRouter
     .patch('/fertilize/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
 
-        const lastFertilize = req.body.lastFertilization;
-        plant.lastFertilization = lastFertilize;
+        plant.lastFertilization = req.body.lastFertilization;
 
         await plant.fertilize();
         res.json(plant);
@@ -74,8 +71,7 @@ plantsRouter
     .patch('/dust/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
 
-        const lastDust = req.body.lastDustRemoval;
-        plant.lastDustRemoval = lastDust;
+        plant.lastDustRemoval = req.body.lastDustRemoval;
 
         await plant.removeDust();
         res.json(plant);
@@ -84,7 +80,6 @@ plantsRouter
     .patch('/edit/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
         const updatePlant = req.body;
-        console.log(updatePlant);
         plant.name = updatePlant.name;
         plant.wateringPeriod = updatePlant.wateringPeriod;
         plant.fertilizationPeriod = updatePlant.fertilizationPeriod;
