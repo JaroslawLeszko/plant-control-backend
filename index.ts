@@ -16,7 +16,7 @@ app.use(urlencoded({
     extended: true,
 }));
 
-app.use(express.static('images'));
+app.use(express.static('plantImages'));
 
 app.use(express.json());
 
