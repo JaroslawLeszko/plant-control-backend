@@ -13,7 +13,7 @@ export const storage = multer.diskStorage({
         request: Request,
         file: Express.Multer.File,
         callback: DestinationCallback
-    ): void => {callback(null, 'images/')
+    ): void => {callback(null, 'plantImages/')
     },
 
     filename: (
