@@ -1,5 +1,9 @@
 import {Request, Response, Router} from "express";
 import multer from 'multer';
+const fs = require('fs')
+const { promisify } = require('util')
+
+
 import {PlantRecord} from "../records/plant.record";
 import {PlantEntity} from "../types";
 
@@ -24,10 +28,12 @@ export const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage: storage,  preservePath: true})
+const upload = multer({ storage: storage,  preservePath: true});
+
+const unlinkAsync = promisify(fs.unlink);
 
 plantsRouter
-    .post('/add/image', upload.single('file'), function (req, res) {
+    .post('/add/image', upload.single('file'), async function (req, res) {
         res.json({message: 'Successfully uploaded file'})
     })
 
@@ -91,6 +97,9 @@ plantsRouter
 
     .delete('/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
+        console.log(plant);
+        const file = plant.image;
+        await unlinkAsync(`plantImages/${file}`);
         await plant.delete();
-        res.end();
+        res.end("Deleting done.");
     })
