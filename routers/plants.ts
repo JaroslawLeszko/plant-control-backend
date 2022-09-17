@@ -2,8 +2,6 @@ import {Request, Response, Router} from "express";
 import multer from 'multer';
 const fs = require('fs')
 const { promisify } = require('util')
-
-
 import {PlantRecord} from "../records/plant.record";
 import {PlantEntity} from "../types";
 
@@ -93,11 +91,11 @@ plantsRouter
         plant.quarantine = updatePlant.quarantine;
 
         await plant.update();
+        res.end("Updated");
     })
 
     .delete('/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
-        console.log(plant);
         const file = plant.image;
         await unlinkAsync(`plantImages/${file}`);
         await plant.delete();
