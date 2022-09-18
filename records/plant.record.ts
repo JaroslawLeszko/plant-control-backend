@@ -31,7 +31,7 @@ export class PlantRecord implements PlantEntity {
         this.fertilizationPeriod = obj.fertilizationPeriod;
         this.lastDustRemoval = obj.lastDustRemoval;
         this.quarantine = obj.quarantine;
-        this.image = obj.image;
+        this.image = obj.image ? obj.image : 'defaultImage.png';
     }
 
     static async listAll(): Promise<PlantEntity[]> {
