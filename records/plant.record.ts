@@ -23,6 +23,14 @@ export class PlantRecord implements PlantEntity {
             throw new ValidationError('Name must be between 3 and 40 characters.');
         }
 
+        if (!obj.wateringPeriod || obj.wateringPeriod <= 0) {
+            throw new ValidationError('Watering period must be greater than 0.');
+        }
+
+        if (!obj.fertilizationPeriod || obj.fertilizationPeriod <= 0) {
+            throw new ValidationError('Fertilization period must be greater than 0.');
+        }
+
         this.id =obj.id;
         this.name = obj.name;
         this.lastWatering = obj.lastWatering;

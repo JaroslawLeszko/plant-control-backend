@@ -83,10 +83,8 @@ plantsRouter
 
     .patch('/edit/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
-        console.log(plant);
         const updatePlant = req.body;
         const oldImage = plant.image;
-        console.log(updatePlant);
 
         plant.name = updatePlant.name;
         plant.wateringPeriod = updatePlant.wateringPeriod;
@@ -96,16 +94,15 @@ plantsRouter
 
         if (oldImage !== 'defaultImage.png') {
             await unlinkAsync(`plantImages/${oldImage}`);
+            plant.image = 'defaultImage.png';
         }
 
         await plant.update();
-        console.log(plant);
         res.end("Updated");
     })
 
     .delete('/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
-        console.log(plant);
         const file = plant.image;
         if (file !== 'defaultImage.png') {
             await unlinkAsync(`plantImages/${file}`);
