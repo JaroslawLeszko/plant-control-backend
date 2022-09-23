@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Router} from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import rateLimit from 'express-rate-limit';
@@ -25,6 +25,10 @@ app.use(rateLimit({
 app.use(express.static('plantImages'));
 
 app.use(express.json());
+
+const router = Router();
+
+router.use('/api', router);
 
 app.use('/', plantsRouter);
 
