@@ -29,9 +29,9 @@ app.use(express.json());
 
 const router = Router();
 
-router.use('/', router);
+router.use('/', plantsRouter);
 
-app.use('/api', plantsRouter);
+app.use('/api', router);
 
 app.use(handleError);
 
