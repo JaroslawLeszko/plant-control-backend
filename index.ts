@@ -23,7 +23,7 @@ app.use(rateLimit({
     max: 100, // Limit each IP to 100 requests per `window` (here, per 5 minutes)
 }));
 
-app.use(express.static('plantImages'));
+app.use('/plantImages', express.static(__dirname + '/plantImages'));
 
 app.use(express.json());
 
@@ -33,8 +33,10 @@ router.use('/', plantsRouter);
 
 app.use('/api', router);
 
+// app.use('/',plantsRouter);
+
 app.use(handleError);
 
-app.listen(3001, '0.0.0.0',() => {
+app.listen(3001, 'localhost',() => {
     console.log('Listening on http://localhost:3001');
 });
