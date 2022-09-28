@@ -1,8 +1,6 @@
 import express, {Router} from 'express';
 import cors from 'cors';
 import path from "path";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import 'express-async-errors';
 import rateLimit from 'express-rate-limit';
 import {handleError} from "./utils/errors";
@@ -26,8 +24,6 @@ app.use(rateLimit({
     max: 100, // Limit each IP to 100 requests per `window` (here, per 5 minutes)
 }));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 app.use(express.static(path.join(__dirname, 'plantImages')));
 app.use('/static', express.static('plantImages'));
