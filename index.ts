@@ -25,7 +25,7 @@ app.use(rateLimit({
 }));
 
 app.use(express.static(path.join(__dirname, 'plantImages')));
-app.use('/static', express.static('plantImages'));
+app.use('/api/plant-control-backend', express.static('plantImages'));
 
 app.use(express.json());
 
