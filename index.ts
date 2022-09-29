@@ -34,10 +34,8 @@ router.use('/', plantsRouter);
 
 app.use('/api', router);
 
-// app.use('/',plantsRouter);
-
 app.use(handleError);
 
-app.listen(3001, 'localhost',() => {
+app.listen(3001, '0.0.0.0', () => {
     console.log('Listening on http://localhost:3001');
 });
