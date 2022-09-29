@@ -41,11 +41,16 @@ plantsRouter
         res.json({
             plantList,
         });
-    res.send({
+    })
+    .get('/', async (req: Request, res: Response) => {
+        const plantList = await PlantRecord.listAll();
+
+        res.send({
             ...plantList,
             key: 'image'
         });
     })
+
 
     .get('/:id', async (req, res) => {
         const onePlant = await PlantRecord.getOne(req.params.id);
