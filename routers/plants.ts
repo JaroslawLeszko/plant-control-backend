@@ -50,8 +50,7 @@ plantsRouter
 
     .get('/:image', async (req, res) => {
         const plantPhoto = await PlantRecord.getOne(req.params.image);
-        console.log(plantPhoto);
-        res.send(plantPhoto);
+        res.sendFile(plantPhoto.image);
     })
 
     .post('/', async (req, res) => {
