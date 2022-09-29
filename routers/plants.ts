@@ -41,6 +41,10 @@ plantsRouter
         res.json({
             plantList,
         });
+    res.send({
+            ...plantList,
+            key: 'image'
+        });
     })
 
     .get('/:id', async (req, res) => {
