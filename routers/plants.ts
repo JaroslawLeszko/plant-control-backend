@@ -49,7 +49,7 @@ plantsRouter
         res.json(onePlant);
     })
 
-    .get('/:image', async (req, res) => {
+    .get('/get/:image', async (req, res) => {
        res.sendFile(path.join(__dirname, '../plantImages', req.params.image));
     })
 
