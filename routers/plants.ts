@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import multer from 'multer';
 import path from "path";
-const fs = require('fs')
+const fs = require('fs/promises');
 const { promisify } = require('util')
 import {PlantRecord} from "../records/plant.record";
 import {PlantEntity} from "../types";
@@ -51,9 +51,9 @@ plantsRouter
 
     .get('/:image', async (req, res) => {
         const imagePath = path.resolve('../plantImages/', `${req.params.image}`);
-        await fs.readFile(imagePath);
+        const file = await fs.readFile(imagePath);
         // const file = await fs.readFile(path.join('../plantImages/', req.params.image));
-        res.sendFile(imagePath);
+        res.sendFile(file);
     })
 
     .post('/', async (req, res) => {
