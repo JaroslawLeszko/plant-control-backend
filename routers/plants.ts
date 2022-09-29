@@ -53,7 +53,7 @@ plantsRouter
         const imagePath = path.join('../plantImages/', `${req.params.image}`);
         const file = await fs.readFile(imagePath);
         // const file = await fs.readFile(path.join('../plantImages/', req.params.image));
-        res.sendFile(file);
+        res.sendFile(imagePath);
     })
 
     .post('/', async (req, res) => {
