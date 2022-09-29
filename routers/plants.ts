@@ -50,9 +50,7 @@ plantsRouter
     })
 
     .get('/:image', async (req, res) => {
-        let photo = req.params.image;
-        let photoDir = path.join('../plantImages/', photo)
-        res.sendFile(`${photoDir}`);
+        await res.sendFile(path.join(__dirname, '../plantImages/', req.params.image));
     })
 
     .post('/', async (req, res) => {
