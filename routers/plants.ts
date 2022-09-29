@@ -52,7 +52,7 @@ plantsRouter
     .get('/getImage/:image', async (req, res) => {
         console.log(req.params.image);
         const imagePath = path.join('/home/jleszkon/domains/jleszko.networkmanager.pl/api/plant-control-backend/plantImages', `${req.params.image}`);
-        await fs.readFile(imagePath);
+//         await fs.readFile(imagePath);
 //         // const file = await fs.readFile(path.join('../plantImages/', req.params.image));
         res.sendFile(imagePath);
     })
