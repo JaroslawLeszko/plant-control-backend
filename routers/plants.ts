@@ -50,8 +50,10 @@ plantsRouter
     })
 
     .get('/:image', async (req, res) => {
-        const file = await fs.readFile(path.join('../plantImages/', req.params.image));
-        res.sendFile(file);
+        const imagePath = fs.resolve('../plantImages/', `${req.params.image}`);
+        await fs.readFile(imagePath);
+        // const file = await fs.readFile(path.join('../plantImages/', req.params.image));
+        res.sendFile(imagePath);
     })
 
     .post('/', async (req, res) => {
