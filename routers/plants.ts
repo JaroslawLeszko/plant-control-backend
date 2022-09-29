@@ -48,9 +48,9 @@ plantsRouter
         res.json(onePlant);
     })
 
-    .get('/:image', async (req, res) => {
-        const onePlant = await PlantRecord.getOne(req.params.image);
-        res.send(onePlant);
+    .get('/:id', async (req, res) => {
+        const onePlant = await PlantRecord.getOne(req.params.id);
+        res.send(onePlant.image);
     })
 
     .post('/', async (req, res) => {
