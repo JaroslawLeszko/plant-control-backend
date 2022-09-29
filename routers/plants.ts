@@ -49,7 +49,7 @@ plantsRouter
         res.json(onePlant);
     })
 
-    .get('/plant-control-backend/plantImages/:image', async (req, res) => {
+    .get('/getImage/:image', async (req, res) => {
         console.log(req.params.image);
         const imagePath = path.join(__dirname, '../plantImages/', `${req.params.image}`);
         await fs.readFile(imagePath);
