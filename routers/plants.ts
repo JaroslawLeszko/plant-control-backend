@@ -49,7 +49,8 @@ plantsRouter
         res.json(onePlant);
     })
 
-    .get('/:image', async (req, res) => {
+    .get('/get/:image', async (req, res) => {
+        console.log(req.params.image);
         const imagePath = path.join(__dirname, '../plantImages/', `${req.params.image}`);
         await fs.readFile(imagePath);
         // const file = await fs.readFile(path.join('../plantImages/', req.params.image));
