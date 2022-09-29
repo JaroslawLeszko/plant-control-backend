@@ -1,5 +1,6 @@
 import {Request, Response, Router} from "express";
 import multer from 'multer';
+import path from "path";
 const fs = require('fs')
 const { promisify } = require('util')
 import {PlantRecord} from "../records/plant.record";
