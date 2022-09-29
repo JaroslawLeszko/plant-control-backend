@@ -57,6 +57,11 @@ plantsRouter
         res.json(onePlant);
     })
 
+    .get('/:id', async (req, res) => {
+        const onePlant = await PlantRecord.getOne(req.params.id);
+        res.send(onePlant.image);
+    })
+
     .post('/', async (req, res) => {
         const newPlant = new PlantRecord(req.body as PlantEntity);
         await newPlant.insert();
