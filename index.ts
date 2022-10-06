@@ -24,18 +24,17 @@ app.use(rateLimit({
     max: 100, // Limit each IP to 100 requests per `window` (here, per 5 minutes)
 }));
 
-app.use(express.static(path.join(__dirname, 'plantImages')));
-app.use('/static', express.static('plantImages'));
+app.use(express.static('plantImages'));
 
 app.use(express.json());
 
-const router = Router();
+// const router = Router();
+//
+// router.use('/', plantsRouter);
+//
+// app.use('/api', router);
 
-router.use('/', plantsRouter);
-
-app.use('/api', router);
-
-// app.use('/',plantsRouter);
+app.use('/',plantsRouter);
 
 app.use(handleError);
 

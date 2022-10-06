@@ -1,9 +1,12 @@
 import {Request, Response, Router} from "express";
 import multer from 'multer';
-const fs = require('fs')
+import path from "path";
+const fs = require('fs/promises');
 const { promisify } = require('util')
 import {PlantRecord} from "../records/plant.record";
 import {PlantEntity} from "../types";
+import {loadavg} from "os";
+
 
 type DestinationCallback = (error: Error | null, destination: string) => void
 type FileNameCallback = (error: Error | null, filename: string) => void
@@ -31,26 +34,38 @@ const upload = multer({ storage: storage,  preservePath: true});
 const unlinkAsync = promisify(fs.unlink);
 
 plantsRouter
-    .post('/add/image', upload.single('file'), async function (req, res) {
-        res.json({message: 'Successfully uploaded file'})
-    })
-
     .get('/', async (req: Request, res: Response) => {
         const plantList = await PlantRecord.listAll();
 
         res.json({
             plantList,
         });
+
     })
 
     .get('/:id', async (req, res) => {
         const onePlant = await PlantRecord.getOne(req.params.id);
+
         res.json(onePlant);
-        res.send(onePlant.image);
+    })
+
+    .get('/getImage/:image', async (req, res) => {
+        const imagePath = path.join(__dirname, '../plantImages/', `${req.params.image}`);
+
+        if (imagePath) {
+            res.sendFile(imagePath);
+        } else {
+            res.sendFile(path.join(__dirname, '../plantImages/defaultImage.png'))
+        }
+    })
+
+    .post('/add/image', upload.single('file'), async (req, res) => {
+        res.json({message: 'Successfully uploaded file'})
     })
 
     .post('/', async (req, res) => {
         const newPlant = new PlantRecord(req.body as PlantEntity);
+
         await newPlant.insert();
         res.json(newPlant);
     })
@@ -87,27 +102,31 @@ plantsRouter
         const updatePlant = req.body;
         const oldImage = plant.image;
 
+        if (oldImage !== updatePlant.image) {
+            plant.image = updatePlant.image;
+        } else {
+            plant.image = `defaultImage.png`;
+        }
+
         plant.name = updatePlant.name;
         plant.wateringPeriod = updatePlant.wateringPeriod;
         plant.fertilizationPeriod = updatePlant.fertilizationPeriod;
-        plant.image = updatePlant.image;
         plant.quarantine = updatePlant.quarantine;
 
+        await plant.update();
         if (oldImage !== 'defaultImage.png') {
             await unlinkAsync(`plantImages/${oldImage}`);
-            plant.image = 'defaultImage.png';
         }
-
-        await plant.update();
-        res.end("Updated");
+        res.end();
     })
 
     .delete('/:id', async (req, res) => {
         const plant = await PlantRecord.getOne(req.params.id);
         const file = plant.image;
+
+        await plant.delete();
         if (file !== 'defaultImage.png') {
             await unlinkAsync(`plantImages/${file}`);
         }
-        await plant.delete();
         res.end("Deleting done.");
     })
