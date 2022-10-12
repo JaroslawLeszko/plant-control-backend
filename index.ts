@@ -1,6 +1,5 @@
 import express, {Router} from 'express';
 import cors from 'cors';
-import path from "path";
 import 'express-async-errors';
 import rateLimit from 'express-rate-limit';
 import {handleError} from "./utils/errors";
@@ -28,13 +27,11 @@ app.use(express.static('plantImages'));
 
 app.use(express.json());
 
-// const router = Router();
-//
-// router.use('/', plantsRouter);
-//
-// app.use('/api', router);
+const router = Router();
 
-app.use('/',plantsRouter);
+router.use('/', plantsRouter);
+
+app.use('/api', router);
 
 app.use(handleError);
 

@@ -1,11 +1,11 @@
 import {Request, Response, Router} from "express";
 import multer from 'multer';
 import path from "path";
-const fs = require('fs/promises');
+const fs = require('fs');
 const { promisify } = require('util')
 import {PlantRecord} from "../records/plant.record";
 import {PlantEntity} from "../types";
-import {loadavg} from "os";
+
 
 
 type DestinationCallback = (error: Error | null, destination: string) => void
@@ -50,7 +50,7 @@ plantsRouter
     })
 
     .get('/getImage/:image', async (req, res) => {
-        const imagePath = path.join(__dirname, '../plantImages/', `${req.params.image}`);
+        const imagePath = path.join('/home/jleszkon/domains/jleszko.networkmanager.pl/api/plant-control-backend/plantImages', `${req.params.image}`);
 
         if (imagePath) {
             res.sendFile(imagePath);
@@ -102,21 +102,19 @@ plantsRouter
         const updatePlant = req.body;
         const oldImage = plant.image;
 
-        if (oldImage !== updatePlant.image) {
+        if (oldImage !== updatePlant.image)
             plant.image = updatePlant.image;
-        } else {
-            plant.image = `defaultImage.png`;
-        }
 
         plant.name = updatePlant.name;
         plant.wateringPeriod = updatePlant.wateringPeriod;
         plant.fertilizationPeriod = updatePlant.fertilizationPeriod;
         plant.quarantine = updatePlant.quarantine;
 
-        await plant.update();
-        if (oldImage !== 'defaultImage.png') {
+        if (oldImage !== updatePlant.image && oldImage !== 'defaultImage.png') {
+
             await unlinkAsync(`plantImages/${oldImage}`);
         }
+        await plant.update();
         res.end();
     })
 
@@ -125,6 +123,7 @@ plantsRouter
         const file = plant.image;
 
         await plant.delete();
+
         if (file !== 'defaultImage.png') {
             await unlinkAsync(`plantImages/${file}`);
         }
