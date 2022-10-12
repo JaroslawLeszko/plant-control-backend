@@ -1,4 +1,4 @@
-# plant-control-backend
+# PLANT CONTROL
 
 PLIK Z BAZĄ DANYCH W REPOZYTORIUM!
 
